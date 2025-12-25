@@ -138,12 +138,12 @@ prepare_luban() {
 prepare_luban
 
 # 输出目录
-JSON_CLIENT_DIR="$PROJECT_ROOT/output/json/client"
+BIN_CLIENT_DIR="$PROJECT_ROOT/output/bin/client"
 JSON_SERVER_DIR="$PROJECT_ROOT/output/json/server"
-CODE_CSHARP_DIR="$PROJECT_ROOT/output/code/csharp"
+CODE_CPP_DIR="$PROJECT_ROOT/output/code/cpp"
 CODE_GO_DIR="$PROJECT_ROOT/output/code/go"
 
-mkdir -p "$JSON_CLIENT_DIR" "$JSON_SERVER_DIR" "$CODE_CSHARP_DIR" "$CODE_GO_DIR"
+mkdir -p "$BIN_CLIENT_DIR" "$JSON_SERVER_DIR" "$CODE_CPP_DIR" "$CODE_GO_DIR"
 
 run_luban() {
   if [ "$IS_DLL" -eq 1 ]; then
@@ -156,12 +156,12 @@ run_luban() {
 (
   cd "$PROJECT_ROOT"
 
-  echo "生成客户端 JSON 配置到: $JSON_CLIENT_DIR"
+  echo "生成客户端 bin 配置到: $BIN_CLIENT_DIR"
   run_luban \
     -t client \
-    -d json \
+    -d bin \
     --conf "$SCRIPT_DIR/luban.conf" \
-    -x outputDataDir="$JSON_CLIENT_DIR"
+    -x outputDataDir="$BIN_CLIENT_DIR"
 
   echo "生成服务端 JSON 配置到: $JSON_SERVER_DIR"
   run_luban \
@@ -170,12 +170,12 @@ run_luban() {
     --conf "$SCRIPT_DIR/luban.conf" \
     -x outputDataDir="$JSON_SERVER_DIR"
 
-  echo "生成 C# 解析代码到: $CODE_CSHARP_DIR"
+  echo "生成 C++ 解析代码到: $CODE_CPP_DIR"
   run_luban \
     -t all \
-    -c cs-dotnet-json \
+    -c cpp-sharedptr-bin \
     --conf "$SCRIPT_DIR/luban.conf" \
-    -x outputCodeDir="$CODE_CSHARP_DIR"
+    -x outputCodeDir="$CODE_CPP_DIR"
 
   echo "生成 Go 解析代码到: $CODE_GO_DIR"
   run_luban \
@@ -186,9 +186,9 @@ run_luban() {
     -x lubanGoModule=xdooria/cfg
 )
 
-echo "生成完成，JSON 输出目录："
-echo "  client: $JSON_CLIENT_DIR"
-echo "  server: $JSON_SERVER_DIR"
+echo "生成完成，数据输出目录："
+echo "  client (bin):  $BIN_CLIENT_DIR"
+echo "  server (json): $JSON_SERVER_DIR"
 echo "代码输出目录："
-echo "  C#: $CODE_CSHARP_DIR"
-echo "  Go: $CODE_GO_DIR"
+echo "  C++: $CODE_CPP_DIR"
+echo "  Go:  $CODE_GO_DIR"

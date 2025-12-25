@@ -31,26 +31,26 @@ if "%LUBAN_DLL%"=="" (
 )
 
 rem 输出目录
-if not exist "output\json\client" (
-    mkdir "output\json\client"
-)
 if not exist "output\json\server" (
     mkdir "output\json\server"
 )
-if not exist "output\code\csharp" (
-    mkdir "output\code\csharp"
+if not exist "output\bin\client" (
+    mkdir "output\bin\client"
+)
+if not exist "output\code\cpp" (
+    mkdir "output\code\cpp"
 )
 if not exist "output\code\go" (
     mkdir "output\code\go"
 )
 
 echo(
-echo Generate client JSON to output/json/client ...
+echo Generate client bin to output/bin/client ...
 dotnet "%LUBAN_DLL%" ^
   -t client ^
-  -d json ^
+  -d bin ^
   --conf "%SCRIPT_DIR%luban.conf" ^
-  -x outputDataDir=output/json/client
+  -x outputDataDir=output/bin/client
 
 echo(
 echo Generate server JSON to output/json/server ...
@@ -61,12 +61,12 @@ dotnet "%LUBAN_DLL%" ^
   -x outputDataDir=output/json/server
 
 echo(
-echo Generate C# code to output/code/csharp ...
+echo Generate C++ code to output/code/cpp ...
 dotnet "%LUBAN_DLL%" ^
   -t all ^
-  -c cs-dotnet-json ^
+  -c cpp-sharedptr-bin ^
   --conf "%SCRIPT_DIR%luban.conf" ^
-  -x outputCodeDir=output/code/csharp
+  -x outputCodeDir=output/code/cpp
 
 echo(
 echo Generate Go code to output/code/go ...
@@ -79,12 +79,12 @@ dotnet "%LUBAN_DLL%" ^
 
 echo(
 echo Generate finished.
-echo   JSON:
-echo     client: %CD%\output\json\client
-echo     server: %CD%\output\json\server
+echo   Data:
+echo     client (bin): %CD%\output\bin\client
+echo     server (json): %CD%\output\json\server
 echo   Code:
-echo     CSharp: %CD%\output\code\csharp
-echo     Go:     %CD%\output\code\go
+echo     C++: %CD%\output\code\cpp
+echo     Go:  %CD%\output\code\go
 
 :end
 pause
