@@ -1,2 +1,5 @@
 # Luban generated output
 output/
+
+# macOS system files
+.DS_Store
