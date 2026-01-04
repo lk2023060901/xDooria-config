@@ -139,11 +139,13 @@ prepare_luban
 
 # 输出目录
 BIN_CLIENT_DIR="$PROJECT_ROOT/output/bin/client"
-JSON_SERVER_DIR="$PROJECT_ROOT/output/json/server"
+JSON_LOGIN_DIR="$PROJECT_ROOT/output/json/login"
+JSON_GAME_DIR="$PROJECT_ROOT/output/json/game"
 CODE_CPP_DIR="$PROJECT_ROOT/output/code/cpp"
-CODE_GO_DIR="$PROJECT_ROOT/output/code/go"
+CODE_GO_LOGIN_DIR="$PROJECT_ROOT/output/code/go/login"
+CODE_GO_GAME_DIR="$PROJECT_ROOT/output/code/go/game"
 
-mkdir -p "$BIN_CLIENT_DIR" "$JSON_SERVER_DIR" "$CODE_CPP_DIR" "$CODE_GO_DIR"
+mkdir -p "$BIN_CLIENT_DIR" "$JSON_LOGIN_DIR" "$JSON_GAME_DIR" "$CODE_CPP_DIR" "$CODE_GO_LOGIN_DIR" "$CODE_GO_GAME_DIR"
 
 run_luban() {
   if [ "$IS_DLL" -eq 1 ]; then
@@ -163,12 +165,27 @@ run_luban() {
     --conf "$SCRIPT_DIR/luban.conf" \
     -x outputDataDir="$BIN_CLIENT_DIR"
 
-  echo "生成服务端 JSON 配置到: $JSON_SERVER_DIR"
+  echo "生成 Login 服务端 JSON 配置和代码"
   run_luban \
-    -t server \
+    -t server_login \
     -d json \
+    -c go-json \
     --conf "$SCRIPT_DIR/luban.conf" \
-    -x outputDataDir="$JSON_SERVER_DIR"
+    -x outputDataDir="$JSON_LOGIN_DIR" \
+    -x outputCodeDir="$CODE_GO_LOGIN_DIR" \
+    -x lubanGoModule="xdooria/app/login/internal/gameconfig" \
+    -x code.excludeUnusedTypes=true
+
+  echo "生成 Game 服务端 JSON 配置和代码"
+  run_luban \
+    -t server_game \
+    -d json \
+    -c go-json \
+    --conf "$SCRIPT_DIR/luban.conf" \
+    -x outputDataDir="$JSON_GAME_DIR" \
+    -x outputCodeDir="$CODE_GO_GAME_DIR" \
+    -x lubanGoModule="xdooria/app/game/internal/gameconfig" \
+    -x code.excludeUnusedTypes=true
 
   echo "生成 C++ 解析代码到: $CODE_CPP_DIR"
   run_luban \
@@ -176,19 +193,8 @@ run_luban() {
     -c cpp-sharedptr-bin \
     --conf "$SCRIPT_DIR/luban.conf" \
     -x outputCodeDir="$CODE_CPP_DIR"
-
-  echo "生成 Go 解析代码到: $CODE_GO_DIR"
-  run_luban \
-    -t all \
-    -c go-json \
-    --conf "$SCRIPT_DIR/luban.conf" \
-    -x outputCodeDir="$CODE_GO_DIR" \
-    -x lubanGoModule=xdooria/cfg
 )
 
-echo "生成完成，数据输出目录："
-echo "  client (bin):  $BIN_CLIENT_DIR"
-echo "  server (json): $JSON_SERVER_DIR"
-echo "代码输出目录："
-echo "  C++: $CODE_CPP_DIR"
-echo "  Go:  $CODE_GO_DIR"
+echo "生成完成。"
+echo "  Login: $JSON_LOGIN_DIR, $CODE_GO_LOGIN_DIR"
+echo "  Game:  $JSON_GAME_DIR, $CODE_GO_GAME_DIR"

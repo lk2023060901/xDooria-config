@@ -1,0 +1,13 @@
+<tables>
+    <table name="TbAccount" value="Account" input="account.xlsx" group="login"/>
+    <table name="TbGlobalConfig" value="GlobalConfig" input="GlobalConfig.xlsx" group="game"/>
+    <table name="TbItem" value="Item" input="Item.xlsx" group="game"/>
+    <table name="TbDoll" value="Doll" input="Doll.xlsx" group="game"/>
+    <table name="TbDrop" value="Drop" input="Drop.xlsx" group="game"/>
+    <table name="TbDropGroup" value="DropGroup" input="DropGroup.xlsx" group="game"/>
+    <table name="TbDropItem" value="DropItem" input="DropItem.xlsx" group="game"/>
+    <table name="TbGacha" value="Gacha" input="Gacha.xlsx" group="game"/>
+    <table name="TbGachaPity" value="GachaPity" input="GachaPity.xlsx" group="game"/>
+    <table name="TbShopItem" value="ShopItemBase" input="Shop.xlsx" group="game"/>
+    <table name="TbSmeltActivity" value="SmeltActivity" input="SmeltActivity.xlsx" group="game"/>
+</tables>
