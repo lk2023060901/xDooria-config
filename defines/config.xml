@@ -26,4 +26,10 @@
         <var name="end_time" type="TimeOfDay" comment="结束时间点"/>
     </bean>
 
+    <!-- 道具消耗 -->
+    <bean name="ItemCost" sep="," comment="道具消耗，格式: item_id,count">
+        <var name="item_id" type="int" comment="道具配置ID"/>
+        <var name="count" type="int" comment="消耗数量"/>
+    </bean>
+
 </module>
