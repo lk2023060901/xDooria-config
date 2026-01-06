@@ -10,4 +10,7 @@
     <table name="TbGachaPity" value="GachaPity" input="GachaPity.xlsx" group="game"/>
     <table name="TbShopItem" value="ShopItemBase" input="Shop.xlsx" group="game"/>
     <table name="TbSmeltActivity" value="SmeltActivity" input="SmeltActivity.xlsx" group="game"/>
+    
+    <table name="TbActivity" value="Activity" input="Activity.xlsx" group="center"/>
+    <table name="TbActivityStage" value="ActivityStage" input="ActivityStage.xlsx" group="center"/>
 </tables>

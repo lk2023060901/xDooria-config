@@ -141,11 +141,13 @@ prepare_luban
 BIN_CLIENT_DIR="$PROJECT_ROOT/output/bin/client"
 JSON_LOGIN_DIR="$PROJECT_ROOT/output/json/login"
 JSON_GAME_DIR="$PROJECT_ROOT/output/json/game"
+JSON_CENTER_DIR="$PROJECT_ROOT/output/json/center"
 CODE_CPP_DIR="$PROJECT_ROOT/output/code/cpp"
 CODE_GO_LOGIN_DIR="$PROJECT_ROOT/output/code/go/login"
 CODE_GO_GAME_DIR="$PROJECT_ROOT/output/code/go/game"
+CODE_GO_CENTER_DIR="$PROJECT_ROOT/output/code/go/center"
 
-mkdir -p "$BIN_CLIENT_DIR" "$JSON_LOGIN_DIR" "$JSON_GAME_DIR" "$CODE_CPP_DIR" "$CODE_GO_LOGIN_DIR" "$CODE_GO_GAME_DIR"
+mkdir -p "$BIN_CLIENT_DIR" "$JSON_LOGIN_DIR" "$JSON_GAME_DIR" "$JSON_CENTER_DIR" "$CODE_CPP_DIR" "$CODE_GO_LOGIN_DIR" "$CODE_GO_GAME_DIR" "$CODE_GO_CENTER_DIR"
 
 run_luban() {
   if [ "$IS_DLL" -eq 1 ]; then
@@ -187,6 +189,17 @@ run_luban() {
     -x lubanGoModule="xdooria/app/game/internal/gameconfig" \
     -x code.excludeUnusedTypes=true
 
+  echo "生成 Center 服务端 JSON 配置和代码"
+  run_luban \
+    -t server_center \
+    -d json \
+    -c go-json \
+    --conf "$SCRIPT_DIR/luban.conf" \
+    -x outputDataDir="$JSON_CENTER_DIR" \
+    -x outputCodeDir="$CODE_GO_CENTER_DIR" \
+    -x lubanGoModule="github.com/lk2023060901/xdooria/app/center/internal/config/cfg" \
+    -x code.excludeUnusedTypes=true
+
   echo "生成 C++ 解析代码到: $CODE_CPP_DIR"
   run_luban \
     -t all \
@@ -198,3 +211,4 @@ run_luban() {
 echo "生成完成。"
 echo "  Login: $JSON_LOGIN_DIR, $CODE_GO_LOGIN_DIR"
 echo "  Game:  $JSON_GAME_DIR, $CODE_GO_GAME_DIR"
+echo "  Center: $JSON_CENTER_DIR, $CODE_GO_CENTER_DIR"
